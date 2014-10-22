@@ -14,7 +14,7 @@ int order_readfun(int epollfd, int orderfd, timer_link *timerlink) {
         canread = sizeof(buff) - buffindex;
 
         int len = read(orderfd, buff + buffindex, canread);
-        if (len > 0 && ((buffindex + len) >= sizeof(int))) {
+        if (len > 0 && ((unsigned int)(buffindex + len) >= sizeof(int))) {
             buffindex += len;
             process_order(epollfd, buff, buffindex, timerlink);
         } else if (len == -1 && errno == EAGAIN) {
